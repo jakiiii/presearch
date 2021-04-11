@@ -7,7 +7,7 @@
 #   !/usr/bin/env python
 #   coding: utf-8
 
-#This is Masud Rana, Does the task like this?
+# This is Masud Rana, Does the task like this?
 
 from selenium import webdriver
 import time
@@ -24,7 +24,11 @@ chrome_options.add_argument("--user-data-dir=chrome-data")
 chrome_options.add_argument("--start-maximized")
 # chrome_options.add_argument("--incognito")
 
-driver = webdriver.Chrome("./chromedriver.exe", chrome_options=chrome_options)
+try:
+    driver = webdriver.Chrome("./chromedriver.exe", chrome_options=chrome_options)
+except:
+    driver = webdriver.Chrome()
+
 chrome_options.add_argument("user-data-dir=chrome-data")
 driver.implicitly_wait(25)  # seconds
 # What will be searched
@@ -67,7 +71,22 @@ while True:
     prev_search_key = search_key
     time.sleep(4)
 
-# TODO: 1 Click the search resust to make it more human
+    # Scrolling few times
+    driver.execute_script("window.scrollBy(0, 800);")
+    time.sleep(random.randint(3, 5))
+    driver.execute_script("window.scrollBy(0, -800);")
+    time.sleep(random.randint(3, 5))
+
+    # TODO: 1 Click the search request to make it more human
+    tab = actions.send_keys(Keys.TAB * random.randint(15, 35))
+    tab.perform()
+    new = tab.key_down(Keys.CONTROL).key_down(Keys.SHIFT).send_keys(Keys.ENTER)
+    new.perform()
+    driver.switch_to.window(driver.window_handles[1])
+    time.sleep(random.randint(5, 10))
+    driver.close()
+    driver.switch_to.window(driver.window_handles[0])
+    time.sleep(random.randint(5, 35))
 
 
 # driver.find_element_by_id("token-animation").click()
